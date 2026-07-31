@@ -1,0 +1,23 @@
+[
+  {
+    "puesto": 27904,
+    "tipo": "DESTINO_OPOSICION",
+    "referencia": "Adjudicación definitiva 70/25 y 71/25",
+    "anio": 2026,
+    "centro": "cee-la-panderola",
+    "provincia": "Castellón",
+    "nota": "Puesto adjudicado en las convocatorias 70/25 y 71/25. El anexo muestra como centro de destino CEE-CR La Panderola y la localidad Onda. Se conserva como evidencia de destino administrativo/estructural y no se interpreta automáticamente como adscripción funcional.",
+    "url": "https://dogv.gva.es/datos/2026/06/25/pdf/2026_21670_es.pdf"
+  },
+  {
+    "puesto": 40870,
+    "tipo": "DESTINO_OPOSICION",
+    "referencia": "Adjudicación definitiva 70/25 y 71/25",
+    "anio": 2026,
+    "centro": "cee-baix-maestrat",
+    "provincia": "Castellón",
+    "localidad": "Vinaròs",
+    "nota": "Puesto adjudicado en las convocatorias 70/25 y 71/25. Esta evidencia no sustituye la adscripción funcional histórica del puesto a CEIP Torreblanca documentada en 2022.",
+    "url": "https://dogv.gva.es/datos/2026/06/25/pdf/2026_21670_es.pdf"
+  }
+]
