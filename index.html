@@ -9,17 +9,80 @@
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-<header class="site-header"><div class="shell header-inner"><a class="brand" href="#">Educadores Especiales</a><nav aria-label="Vistas principales"><button class="nav-tab is-active" data-view="puestos">Puestos</button><button class="nav-tab" data-view="centros">Centros</button><button class="nav-tab" data-view="localidades">Localidades</button><button class="nav-tab" disabled>Mapa <span class="soon">próximamente</span></button></nav></div></header>
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href="#">Educadores Especiales</a>
+    <nav aria-label="Vistas principales">
+      <button class="nav-tab is-active" data-view="puestos">Puestos</button>
+      <button class="nav-tab" data-view="centros">Centros</button>
+      <button class="nav-tab" data-view="localidades">Localidades</button>
+      <button class="nav-tab" disabled>Mapa <span class="soon">próximamente</span></button>
+    </nav>
+  </div>
+</header>
 <main class="shell">
-<section class="hero"><div><p class="eyebrow">Catálogo abierto</p><h1>Dónde han existido puestos de Educación Especial</h1><p class="lead">Consulta centros, localidades, números de puesto y sus apariciones históricas en ADC y RPT. El proyecto está preparado para incorporar nuevas provincias y nuevas fuentes.</p></div><div class="hero-badge"><strong>C1</strong><span>04-03</span></div></section>
-<section class="stats" aria-label="Resumen"><article><strong id="stat-puestos">—</strong><span>Puestos</span></article><article><strong id="stat-centros">—</strong><span>Centros</span></article><article><strong id="stat-localidades">—</strong><span>Localidades</span></article><article><strong id="stat-apariciones">—</strong><span>Apariciones</span></article></section>
-<section class="panel"><div class="panel-heading"><div><p class="eyebrow">Filtros</p><h2>Acota el catálogo</h2></div><button id="clear-filters" class="button button-ghost">Limpiar filtros</button></div><div class="filters"><label>Provincia<select id="filter-provincia"><option value="">Todas</option></select></label><label>Localidad<select id="filter-localidad"><option value="">Todas</option></select></label><label>Tipo de centro<select id="filter-tipo-centro"><option value="">Todos</option></select></label><label>Fuente<select id="filter-fuente"><option value="">ADC + RPT</option><option value="ADC">ADC</option><option value="RPT">RPT</option></select></label><label>Desde el año<select id="filter-anio"><option value="">Todo el histórico</option></select></label></div></section>
-<section id="view-puestos" class="view is-active panel"><div class="panel-heading"><div><p class="eyebrow">Vista principal</p><h2>Puestos</h2><p>Una fila por número de puesto. Pulsa “Historial” para ver todas sus apariciones conocidas.</p></div></div><div class="table-wrap"><table id="tabla-puestos" class="display" style="width:100%"><thead><tr><th>Nº puesto</th><th>Provincia</th><th>Último centro conocido</th><th>Localidad</th><th>Fuentes</th><th>Última aparición</th><th>Apariciones</th><th></th></tr></thead><tbody></tbody></table></div></section>
-<section id="view-centros" class="view panel"><div class="panel-heading"><div><p class="eyebrow">Por destino</p><h2>Centros</h2><p>Centros en los que se ha documentado al menos una aparición o adscripción.</p></div></div><div class="table-wrap"><table id="tabla-centros" class="display" style="width:100%"><thead><tr><th>Provincia</th><th>Localidad</th><th>Centro</th><th>Tipo</th><th>Puestos conocidos</th><th>Última aparición</th><th>Fuentes</th></tr></thead><tbody></tbody></table></div></section>
-<section id="view-localidades" class="view panel"><div class="panel-heading"><div><p class="eyebrow">Vista agrupada</p><h2>Localidades</h2><p>Navega por provincia, localidad, centro y números de puesto.</p></div></div><div id="localidades-list" class="location-list"></div></section>
-<section class="panel about-grid"><div><p class="eyebrow">Cómo leerlo</p><h2>Histórico, no foto fija</h2><p>Un mismo número de puesto puede aparecer en distintos centros a lo largo del tiempo. Por eso se conserva cada aparición en vez de sobrescribirla.</p></div><div><p class="eyebrow">Siguiente fase</p><h2>Mapa y valoración</h2><p>La estructura está preparada para añadir coordenadas, ficha de centro y un índice simple de recomendación del tipo “trabajaría aquí otra vez / no trabajaría aquí otra vez”.</p></div></section>
+  <div id="app-status" class="app-status" role="status" aria-live="polite" hidden></div>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Catálogo abierto</p>
+      <h1>Catálogo de puestos de Educación Especial</h1>
+      <p class="lead">Dónde han existido puestos, en qué centros y localidades, y qué apariciones históricas conocemos en ADC y RPT. El catálogo está preparado para crecer por provincias.</p>
+    </div>
+    <div class="hero-badge"><strong>C1</strong><span>04-03</span></div>
+  </section>
+
+  <section class="stats" aria-label="Resumen">
+    <article><strong id="stat-puestos">—</strong><span>Puestos</span></article>
+    <article><strong id="stat-centros">—</strong><span>Centros</span></article>
+    <article><strong id="stat-localidades">—</strong><span>Localidades</span></article>
+    <article><strong id="stat-apariciones">—</strong><span>Apariciones</span></article>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><div><p class="eyebrow">Filtros</p><h2>Acota el catálogo</h2></div><button id="clear-filters" class="button button-ghost">Limpiar filtros</button></div>
+    <div class="filters">
+      <label>Provincia<select id="filter-provincia"><option value="">Todas</option></select></label>
+      <label>Localidad<select id="filter-localidad"><option value="">Todas</option></select></label>
+      <label>Tipo de centro<select id="filter-tipo-centro"><option value="">Todos</option></select></label>
+      <label>Fuente<select id="filter-fuente"><option value="">ADC + RPT</option><option value="ADC">ADC</option><option value="RPT">RPT</option></select></label>
+      <label>Desde el año<select id="filter-anio"><option value="">Todo el histórico</option></select></label>
+    </div>
+  </section>
+
+  <section id="view-puestos" class="view is-active panel">
+    <div class="panel-heading"><div><p class="eyebrow">Vista principal</p><h2>Puestos</h2><p>Una fila por número de puesto. Pulsa “Historial” para ver todas sus apariciones conocidas.</p></div></div>
+    <div class="table-wrap"><table id="tabla-puestos" class="display" style="width:100%"><thead><tr><th>Nº puesto</th><th>Provincia</th><th>Último centro conocido</th><th>Localidad</th><th>Fuentes</th><th>Última aparición</th><th>Apariciones</th><th></th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="view-centros" class="view panel">
+    <div class="panel-heading"><div><p class="eyebrow">Por destino</p><h2>Centros</h2><p>Una fila por centro. Pulsa el nombre para abrir su ficha, ver números de puesto y todas las apariciones documentadas.</p></div></div>
+    <div class="table-wrap"><table id="tabla-centros" class="display" style="width:100%"><thead><tr><th>Provincia</th><th>Localidad</th><th>Centro</th><th>Tipo</th><th>Puestos conocidos</th><th>Última aparición</th><th>Fuentes</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="view-localidades" class="view panel">
+    <div class="panel-heading"><div><p class="eyebrow">Vista agrupada</p><h2>Localidad → centro → puestos</h2><p>Vista jerárquica del catálogo. Los centros son interactivos y abren su ficha completa.</p></div></div>
+    <div id="localidades-list" class="location-list"></div>
+  </section>
+
+  <section class="panel about-grid">
+    <div><p class="eyebrow">Cómo leerlo</p><h2>Histórico, no foto fija</h2><p>Un mismo número de puesto puede aparecer en distintos centros a lo largo del tiempo. Por eso se conserva cada aparición en vez de sobrescribirla.</p></div>
+    <div><p class="eyebrow">Siguiente fase</p><h2>Mapa y valoración</h2><p>La estructura está preparada para añadir coordenadas, ficha ampliada de centro y un índice simple de recomendación del tipo “trabajaría aquí otra vez / no trabajaría aquí otra vez”.</p></div>
+  </section>
 </main>
-<dialog id="history-dialog"><div class="dialog-head"><div><p class="eyebrow">Historial</p><h2 id="history-title">Puesto</h2></div><button class="dialog-close" aria-label="Cerrar">×</button></div><div id="history-content"></div></dialog>
+
+<dialog id="history-dialog">
+  <div class="dialog-head"><div><p class="eyebrow">Historial</p><h2 id="history-title">Puesto</h2></div><button class="dialog-close" data-close="history-dialog" aria-label="Cerrar">×</button></div>
+  <div id="history-content"></div>
+</dialog>
+
+<dialog id="centre-dialog" class="centre-dialog">
+  <div class="dialog-head"><div><p class="eyebrow">Ficha de centro</p><h2 id="centre-title">Centro</h2><p id="centre-subtitle" class="dialog-subtitle"></p></div><button class="dialog-close" data-close="centre-dialog" aria-label="Cerrar">×</button></div>
+  <div id="centre-content"></div>
+</dialog>
+
 <footer><div class="shell">Proyecto abierto y orientado a datos verificables. ADC, RPT y adscripciones se muestran como fuentes diferenciadas.</div></footer>
-<script src="https://cdn.datatables.net/3.0.0/js/dataTables.min.js"></script><script src="js/app.js"></script>
-</body></html>
+<script src="https://cdn.datatables.net/3.0.0/js/dataTables.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
