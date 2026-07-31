@@ -1,0 +1,9 @@
+[
+  {"id":"centros-gva","nombre":"Guía de Centros Docentes GVA","tipo":"CENTRO","prioridad":1,"descripcion":"Código, tipo, régimen, dirección, teléfono, comarca, coordenadas y enseñanzas/unidades autorizadas.","url":"https://dadesobertes.gva.es/es/dataset/edu-centros"},
+  {"id":"cee-oficial","nombre":"Listado oficial de Centros de Educación Especial","tipo":"CEE","prioridad":1,"descripcion":"Relación oficial de CEE públicos y concertados por provincia."},
+  {"id":"rpt","nombre":"Relación de Puestos de Trabajo / concursos","tipo":"RPT","prioridad":1,"descripcion":"Existencia estructural de puestos C1-04-03 y centro administrativo."},
+  {"id":"adscripcion","nombre":"Adscripciones funcionales de Educación Especial","tipo":"ADSCRIPCION","prioridad":1,"descripcion":"Centro real de prestación de servicio cuando difiere del centro administrativo."},
+  {"id":"adc","nombre":"Anuncios de difícil cobertura (ADC)","tipo":"ADC","prioridad":1,"descripcion":"Histórico de puestos ofertados temporalmente y recurrencia de vacantes."},
+  {"id":"oposiciones","nombre":"Elecciones de destino de oposiciones","tipo":"DESTINO_OPOSICION","prioridad":1,"descripcion":"Puestos ofertados a personal de nuevo ingreso; complementa ADC y RPT."},
+  {"id":"concurso-25-2026","nombre":"Concurso de traslados 25/2026 C1-04-03","tipo":"CONCURSO","prioridad":1,"descripcion":"Universo de 673 plazas convocadas en 2026; fuente para ampliar el inventario estructural.","url":"https://sede.gva.es/es/detall-ocupacio-publica?id_emp=110652&id_etapa=1"}
+]
