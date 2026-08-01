@@ -50,5 +50,5 @@ function renderGrouped(){
   if(!root.children.length)root.innerHTML='<div class="group-empty-state">No hay destinos que coincidan con los filtros.</div>';
 }
 function bind(){['#filter-provincia','#filter-localidad','#filter-tipo-centro','#filter-recurso','#filter-fuente','#filter-anio'].forEach(s=>q(s)?.addEventListener('change',renderGrouped));q('#clear-filters')?.addEventListener('click',()=>setTimeout(renderGrouped,0))}
-window.addEventListener('DOMContentLoaded',()=>{bind();loadGrouped().catch(console.error)});
+window.addEventListener('DOMContentLoaded',()=>{bind();loadGrouped().catch(console.error);const s=document.createElement('script');s.src='js/hierarchy-table.js?v=1.3.0';document.body.appendChild(s)});
 })();
