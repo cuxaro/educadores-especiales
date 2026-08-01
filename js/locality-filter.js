@@ -17,7 +17,6 @@
 
   let aliasToDisplay=new Map();
   let provinceGroups=new Map();
-  const canonical=raw=>{for(const v of variants(raw))if(aliasToDisplay.has(v))return aliasToDisplay.get(v);return title(raw)};
 
   function buildMaps(){
     const rows=[];
@@ -73,7 +72,6 @@
     if(!window.state?.m||!q('#filter-localidad'))return setTimeout(start,80);
     buildMaps(); patchFiltering(); rebuildLocalities();
     q('#filter-provincia')?.addEventListener('change',()=>{rebuildLocalities();setTimeout(()=>window.refresh?.(),0)});
-    const footer=document.querySelector('footer strong');if(footer)footer.textContent='v1.5.5';
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
