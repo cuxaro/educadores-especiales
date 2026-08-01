@@ -4,7 +4,7 @@
   const uniq = values => [...new Set(values.filter(value => value !== null && value !== undefined && value !== ''))];
   const norm = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
   const centreBase = value => norm(value).replace(/\b(CEE|CR|PUB|PUBLIC|PUBLICA|PUBLICO)\b/g,' ').replace(/\s+/g,' ').trim();
-  const localityKey = value => norm(value).split(' ').filter(Boolean).sort().join(' ');
+  const localityVariants = value => uniq([String(value || ''),...String(value || '').split('/')].map(norm).filter(Boolean));
   const sourceLabel = app => app.tipo === 'ADSCRIPCION' ? 'Funcional 2026' : app.tipo === 'CONCURSO_TRASLADOS' ? 'Estructural 25/2026' : app.tipo === 'DESTINO_OPOSICION' ? 'Oposición' : app.tipo || 'Histórico';
   const isSecondary = app => Boolean(app.atiende_tambien || app.secundario || app.rol === 'ATEN_TAMBE' || app.rol_funcional === 'atiende_tambien');
   let cataloguePromise = null;
@@ -22,19 +22,28 @@
         getJSON('data/apariciones.json'),
         getJSON('data/adscripciones.json'),
         getJSON('data/recursos.json')
-      ]).then(([centres,appearances,assignments,resources]) => ({
-        centres,
-        apps:[...appearances,...assignments],
-        resources,
-        centreMap:new Map(centres.map(centre => [centre.id,centre]))
-      }));
+      ]).then(([centres,appearances,assignments,resources]) => {
+        const apps = [...appearances,...assignments];
+        const centreMap = new Map(centres.map(centre => [centre.id,centre]));
+        resources.forEach(resource => {
+          if(resource.centro && !centreMap.has(resource.centro) && resource.nombre){
+            centreMap.set(resource.centro,{id:resource.centro,nombre:resource.nombre,provincia:resource.provincia || '—',localidad:resource.localidad || '—',tipo:resource.tipo || 'Centro',codigo:resource.codigo || null});
+          }
+        });
+        apps.forEach(app => {
+          if(app.centro && !centreMap.has(app.centro) && app.centro_nombre){
+            centreMap.set(app.centro,{id:app.centro,nombre:app.centro_nombre,provincia:app.provincia || '—',localidad:app.localidad || '—',tipo:app.tipo_centro || 'Centro',codigo:app.codigo_centro || null});
+          }
+        });
+        return {centres:[...centreMap.values()],apps,resources,centreMap};
+      });
     }
     return cataloguePromise;
   }
 
   function sameLocality(a,b){
-    const na = norm(a), nb = norm(b);
-    return na === nb || na.split('/').some(part => norm(part) === nb) || nb.split('/').some(part => norm(part) === na) || localityKey(a) === localityKey(b);
+    const va = localityVariants(a), vb = localityVariants(b);
+    return va.some(left => vb.some(right => left === right || left.includes(right) || right.includes(left)));
   }
 
   function matchingCentres(catalogue,{name,province,locality}){
@@ -77,7 +86,7 @@
     q('#centre-title').textContent = request.name;
     q('#centre-subtitle').textContent = 'Cargando ficha del centro…';
     q('#centre-content').innerHTML = '<p class="muted">Cargando evidencias y puestos…</p>';
-    dialog.showModal ? dialog.showModal() : dialog.setAttribute('open','');
+    if(!dialog.open){dialog.showModal ? dialog.showModal() : dialog.setAttribute('open','');}
 
     try{
       const catalogue = await loadCatalogue();
