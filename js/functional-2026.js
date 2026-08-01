@@ -14,4 +14,12 @@ window.loadFunctional2026=async(baseFetch,candidates=[])=>{
  const apps=mapped.flatMap(x=>x.puestos.map(([puesto,jornada,rol])=>({puesto,tipo:'ADSCRIPCION',referencia:'Adscripción funcional 12/03/2026',anio:2026,centro:x.centro,centro_nombre:x.nombre,provincia:x.provincia,localidad:x.localidad,tipo_centro:/^CEE/.test(x.nombre)?'CEE':/^IES/.test(x.nombre)?'IES':/^CRA/.test(x.nombre)?'CRA':/^EI/.test(x.nombre)?'EI':'CEIP',jornada,rol_funcional:rol?'atiende_tambien':'principal',nota:rol?'El documento indica «Atén també»: el puesto atiende también este centro.':'Adscripción funcional principal informada a fecha 12 de marzo de 2026.',url:URL})));
  window.functional2026={rows:mapped,apps};return window.functional2026;
 };
+
+/* Carga tardía: normaliza el desplegable de localidades cuando app.js ya ha construido los modelos. */
+if(!document.querySelector('script[data-locality-filter]')){
+ const s=document.createElement('script');
+ s.src='js/locality-filter.js?v=1.5.5';
+ s.dataset.localityFilter='1';
+ document.head.appendChild(s);
+}
 })();
