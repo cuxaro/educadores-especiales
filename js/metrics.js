@@ -41,4 +41,15 @@
     try { openCentre = window.openCentre; } catch(_) {}
   };
   patch();
+
+  // Acción de centro desacoplada del redibujado de DataTables.
+  const centreActions=document.createElement('script');
+  centreActions.src='js/centre-actions.js?v=1.5.4';
+  centreActions.onload=()=>{
+    setTimeout(()=>{
+      const footer=document.querySelector('footer strong');
+      if(footer) footer.textContent='v1.5.4';
+    },0);
+  };
+  document.body.appendChild(centreActions);
 })();
